@@ -9,14 +9,16 @@ const PersonalBlog = async () => {
     ? await getPostsByAuthorSlug("ryna-kenter")
     : [];
 
+  const validPosts = posts?.filter(post => post && post.mainImage) ?? [];
+
   return (
     <>
-      {integrations?.isSanityEnabled && <Hero />}
+      {integrations?.isSanityEnabled && posts?.length > 0 && <Hero />}
 
       <section className="pb-20">
         <div className="mx-auto max-w-[1170px] px-4 sm:px-8 xl:px-0">
           {integrations?.isSanityEnabled ? (
-            <BlogItemContainer posts={posts} />
+            <BlogItemContainer posts={validPosts} />
           ) : (
             <div className="pt-28">{messages.sanity}</div>
           )}
