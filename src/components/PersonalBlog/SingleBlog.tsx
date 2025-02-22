@@ -7,13 +7,12 @@ import { useSession } from "next-auth/react";
 import ProBadge from "../Badges/ProBadge";
 import { generatePostDetailsLink } from "@/libs/utils";
 import MemberBadge from "../Badges/MemberBadge";
-import { useStripeSession } from "@/app/context/StripeSessionContext";
 
 const SingleBlog = ({ blog }: { blog: Blog }) => {
   const { data: session } = useSession();
 
   const isLoggedin = session?.user;
-  let { isSubscribed } = useStripeSession();
+  const isSubscribed = false;
   const postDetailsLink = generatePostDetailsLink(
     blog,
     isLoggedin,

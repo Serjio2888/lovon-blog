@@ -1,5 +1,4 @@
 "use client";
-import { useStripeSession } from "@/app/context/StripeSessionContext";
 import { generatePostDetailsLink } from "@/libs/utils";
 import { imageBuilder } from "@/sanity/sanity-utils";
 import { Blog } from "@/types/blog";
@@ -11,14 +10,14 @@ import ProBadge from "../Badges/ProBadge";
 import { integrations, messages } from "../../../integrations.config";
 
 const SingleBlog = ({ post }: { post: Blog }) => {
-  let { isSubscribed }: any = useStripeSession();
+  const isSubscribed = false;
   const { data: session } = useSession();
   const isLoggedin = session?.user;
 
   const postDetailsLink = generatePostDetailsLink(
     post,
     isLoggedin,
-    isSubscribed,
+    isSubscribed
   );
 
   return (

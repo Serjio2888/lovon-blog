@@ -26,12 +26,24 @@ export async function sanityFetch<QueryResponse>({
   tags: string[];
 }): Promise<QueryResponse> {
   if (integrations?.isSanityEnabled) {
+    console.log('Sanity is enabled, creating client...');
+    console.log('Project ID:', process.env.NEXT_PUBLIC_SANITY_PROJECT_ID);
+    console.log('Dataset:', process.env.NEXT_PUBLIC_SANITY_DATASET);
     const client = createClient(clientConfig);
-    return client.fetch<QueryResponse>(query, qParams, {
-      cache: "force-cache",
-      next: { tags },
-    });
+    console.log('Client created, executing query:', query);
+    try {
+      const result = await client.fetch<QueryResponse>(query, qParams, {
+        cache: "force-cache",
+        next: { tags },
+      });
+      console.log('Query result:', result);
+      return result;
+    } catch (error) {
+      console.error('Error executing query:', error);
+      return {} as QueryResponse;
+    }
   } else {
+    console.log('Sanity is not enabled');
     return {} as QueryResponse;
   }
 }
@@ -59,12 +71,19 @@ export async function getAuthorBySlug(slug: string) {
 }
 
 export async function getPosts() {
-  const data: Blog[] = await sanityFetch({
-    query: postQuery,
-    qParams: {},
-    tags: ["post", "author"],
-  });
-  return data;
+  try {
+    console.log('Fetching posts from Sanity...');
+    const data: Blog[] = await sanityFetch({
+      query: postQuery,
+      qParams: {},
+      tags: ["post", "author"],
+    });
+    console.log('Posts fetched:', data);
+    return data;
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    return [];
+  }
 }
 
 export async function getPostsByAuthorSlug(slug: string) {

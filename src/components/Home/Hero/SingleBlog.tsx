@@ -7,13 +7,12 @@ import { Blog } from "@/types/blog";
 import { useSession } from "next-auth/react";
 import { generatePostDetailsLink } from "@/libs/utils";
 import ProBadge from "@/components/Badges/ProBadge";
-import { useStripeSession } from "@/app/context/StripeSessionContext";
 import MemberBadge from "@/components/Badges/MemberBadge";
 
 const SingleBlog = ({ blog }: { blog: Blog }) => {
   const { title, category, mainImage, author, publishedAt } = blog;
 
-  let { isSubscribed } = useStripeSession();
+  const isSubscribed = false;
   const { data: session } = useSession();
 
   const isLoggedin = session?.user;
