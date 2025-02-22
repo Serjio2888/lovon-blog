@@ -52,22 +52,28 @@ const FirstBlog = ({ blog }: { blog: Blog }) => {
         </h1>
         <p className="max-w-[524px]">{metaDescription}</p>
         <div className="mt-5 flex items-center gap-2.5">
-          <Link
-            href={`/author/${author?.slug.current}`}
-            className="flex items-center gap-3"
-          >
-            <div className="flex h-6 w-6 overflow-hidden rounded-full">
-              <Image
-                src={imageBuilder(author?.image).url()!}
-                alt="user"
-                width={24}
-                height={24}
-              />
-            </div>
-            <p className="text-sm">{author?.name}</p>
-          </Link>
+          {author && author.slug && author.slug.current && (
+            <>
+              <Link
+                href={`/author/${author.slug.current}`}
+                className="flex items-center gap-3"
+              >
+                {author.image && (
+                  <div className="flex h-6 w-6 overflow-hidden rounded-full">
+                    <Image
+                      src={imageBuilder(author.image).url()!}
+                      alt={author.name || "author"}
+                      width={24}
+                      height={24}
+                    />
+                  </div>
+                )}
+                {author.name && <p className="text-sm">{author.name}</p>}
+              </Link>
 
-          <span className="flex h-[3px] w-[3px] rounded-full bg-dark-2"></span>
+              <span className="flex h-[3px] w-[3px] rounded-full bg-dark-2"></span>
+            </>
+          )}
 
           <p className="text-sm">
             {publishedAt &&

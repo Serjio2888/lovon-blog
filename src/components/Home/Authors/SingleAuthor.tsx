@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const SingleAuthor = async ({ author }: { author: Author }) => {
+  if (!author.slug) return null;
   const posts = await getPostsByAuthorSlug(author.slug.current);
 
   return (
